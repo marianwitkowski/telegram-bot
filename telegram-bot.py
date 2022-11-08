@@ -13,6 +13,7 @@ async def get_data(icao):
             raise
         return response.text
     except Exception as exc:
+        print(exc)
         raise Exception(str(exc))
 
 
@@ -22,6 +23,7 @@ async def get_metar_from_web(icao):
         dom = bs4.BeautifulSoup(txt, 'lxml')
         return dom.find("h4").text.strip()
     except Exception as exc:
+        print(exc)
         raise Exception(str(exc))
 
 
@@ -31,6 +33,7 @@ async def get_taf_from_web(icao):
         dom = bs4.BeautifulSoup(txt, 'lxml')
         return dom.find("h5").text.strip()
     except Exception as exc:
+        print(exc)
         raise Exception(str(exc))
 
 
@@ -40,6 +43,7 @@ async def get_metar(update: Update, context: ContextTypes) -> None:
         s = " ".join( update.message.text.split(" ")[1:] )
         s = await get_metar_from_web(s)
     except Exception as exc:
+        print(exc)
         s = "Sorry, no data!"
     await update.message.reply_text(s)
 
@@ -50,6 +54,7 @@ async def get_taf(update: Update, context: ContextTypes) -> None:
         s = " ".join(update.message.text.split(" ")[1:])
         s = await get_taf_from_web(s)
     except Exception as exc:
+        print(exc)
         s = "Sorry, no data!"
     await update.message.reply_text(s)
 
